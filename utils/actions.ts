@@ -114,7 +114,7 @@ export async function deleteJobAction(id: string): Promise<JobType | null> {
     const job: JobType = await prisma.job.delete({
       where: {
         id,
-        clerkId: userId,
+        clerkId: userId ?? '',
       },
     });
     return job;
@@ -130,7 +130,7 @@ export async function getSingleJobAction(id: string): Promise<JobType | null> {
     job = await prisma.job.findUnique({
       where: {
         id,
-        clerkId: userId,
+        clerkId: userId ?? '',
       },
     });
   } catch (error) {
@@ -152,7 +152,7 @@ export async function updateJobAction(
     const job: JobType = await prisma.job.update({
       where: {
         id,
-        clerkId: userId,
+        clerkId: userId ?? '',
       },
       data: {
         ...values,
@@ -181,11 +181,7 @@ export async function getStatsAction(): Promise<{
         status: true,
       },
       where: {
-        clerkId: userId, // replace userId with the actual clerkId
-      },
-      by: ['status'],
-      _count: {
-        status: true,
+        clerkId: userId ?? '', // replace userId with the actual clerkId
       },
     });
     const statsObject = stats.reduce((acc, curr) => {
