@@ -30,7 +30,7 @@ export async function createJobAction(
       data: {
         ...values,
 
-        clerkId: userId,
+        clerkId: userId ?? '',
       },
     });
     return job;
@@ -61,7 +61,7 @@ export async function getAllJobsAction({
 
   try {
     let whereClause: Prisma.JobWhereInput = {
-      clerkId: userId,
+      clerkId: userId ?? '',
     };
     if (search) {
       whereClause = {
@@ -209,7 +209,7 @@ export async function getChartsDataAction(): Promise<
   try {
     const jobs = await prisma.job.findMany({
       where: {
-        clerkId: userId,
+        clerkId: userId ?? '',
         createdAt: {
           gte: sixMonthsAgo,
         },
